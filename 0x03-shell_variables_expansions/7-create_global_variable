@@ -1,2 +1,2 @@
 #!/bin/bash
-export School="Betty"
+export School=Betty
