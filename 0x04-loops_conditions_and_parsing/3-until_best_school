@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # displays Best School 10 times.
 i=0
-until ((i > 10))
+until ((i > 9))
 do
 	echo "Best School"
 	((++i))
