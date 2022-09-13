@@ -2,4 +2,4 @@
 # Kills the process of 4-to_infinity_and_beyond.
 # You cannot use kill or killall
 
-pkill -x 4-to_infinity_and_beyond
+pkill -n 4-to_infinity_and_beyond
