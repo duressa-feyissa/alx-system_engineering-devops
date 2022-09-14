@@ -8,12 +8,12 @@
 # if the file is a regular file: school is a regular file
 
 
-file="School"
+file="school"
 if [ -f $file ]
-then 
+then
 	echo "school file exists"
 		if [ -s $file ]
-		then 
+		then
 			echo "school file is not empty"
 		else
 			echo "school file is empty"
