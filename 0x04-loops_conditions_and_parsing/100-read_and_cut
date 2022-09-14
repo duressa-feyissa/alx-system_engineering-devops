@@ -7,7 +7,7 @@
 # Otherwise, displays the number
 # In a list format
 
-while IFS=: read user pass uid gid full home shell
+while read -r line
 do
-	echo -e "$user:$uid:$home"
+	echo "$line" | cut -d ":" -f 1,3,6
 done < /etc/passwd
