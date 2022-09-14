@@ -19,7 +19,7 @@ then
 			echo "school file is empty"
 		fi
 		if [ -f $file ]
-			then echo "Regular File"
+			then echo "School is a regular file"
 		fi
 else
 	echo "school file does not exist"
