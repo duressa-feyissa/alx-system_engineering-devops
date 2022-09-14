@@ -9,7 +9,7 @@
 
 
 file="school"
-if [ -f $file ]
+if [ -e $file ]
 then
 	echo "school file exists"
 		if [ -s $file ]
