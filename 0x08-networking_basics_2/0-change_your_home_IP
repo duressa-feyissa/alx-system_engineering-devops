@@ -3,7 +3,7 @@
 # localhost resolves to 127.0.0.2
 # facebook.com resolves to 8.8.8.8
 
-cp /etc/hosts new_hosts
+cp /etc/hosts new
 sed -i s/^127.*/"127.0.0.2 localhost"/ new
 echo "8.8.8.8 facebook.com" >> new
 cp new /etc/hosts
