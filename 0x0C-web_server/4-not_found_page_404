@@ -1,38 +1,17 @@
 #!/usr/bin/env bash
-#configure a custom 404 page
-
-sudo apt-get update
-sudo apt-get -y install nginx
-ufw allow 'Nginx HTTP'
-chmod -R 755 /var/www
-echo 'Hello World' > /var/www/html/index.html
-
-new_config=\
-"server {
-        listen 80 default_server;
-        listen [::]:80 default_server;
-               root /var/www/html;
-        index index.html index.htm index.nginx-debian.html;
-        server_name _;
-        location / {
-                try_files \$uri \$uri/ =404;
-        }
-        error_page 404 /404.html;
-        location  /404.html {
-            internal;
-        }
-        
-        if (\$request_filename ~ redirect_me){
-            rewrite ^ https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;
-        }
-}
-"
-echo "Ceci n'est pas une page" > /var/www/html/404.html
-echo "$new_config" > /etc/nginx/sites-available/default
-
-if [ "$(pgrep nginx)" -le 0 ];
-then
-    service nginx start
-else
-    service nginx restart
-fi;
+# Script to setup an nginx server
+indexFile=/var/www/html/index.nginx-debian.html
+errorFile=/var/www/html/error.html
+defaultWeb=/etc/nginx/sites-available/default
+sudo apt update
+sudo apt install nginx -y
+echo "Hello World!" | sudo tee $indexFile &&
+sudo chmod 644 $indexFile
+sudo chmod a+w $defaultWeb &&
+sudo sed -i '/server_name _;/a\\n\terror_page 404 /error.html;\n\tlocation /error.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}\n\tlocation /redirect_me {\n\t\trewrite ^/redirect_me https://google.com permanent;\n\t}\n' $defaultWeb &&
+sudo chmod 644 $defaultWeb
+sudo touch $errorFile
+sudo chmod a+w $errorFile
+sudo echo "Ceci n'est pas une page" > $errorFile
+sudo chmod 644 $errorFile
+sudo service nginx restart
