@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 # Script to setup an nginx server
-indexFile=/var/www/html/index.nginx-debian.html
-errorFile=/var/www/html/error.html
-defaultWeb=/etc/nginx/sites-available/default
+index_file=/var/www/html/index.nginx-debian.html
+error_file=/var/www/html/error.html
+default_web=/etc/nginx/sites-available/default
 sudo apt update
 sudo apt install nginx -y
-echo "Hello World!" | sudo tee $indexFile &&
-sudo chmod 644 $indexFile
-sudo chmod a+w $defaultWeb &&
-sudo sed -i '/server_name _;/a\\n\terror_page 404 /error.html;\n\tlocation /error.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}\n\tlocation /redirect_me {\n\t\trewrite ^/redirect_me https://google.com permanent;\n\t}\n' $defaultWeb &&
-sudo chmod 644 $defaultWeb
-sudo touch $errorFile
-sudo chmod a+w $errorFile
-sudo echo "Ceci n'est pas une page" > $errorFile
-sudo chmod 644 $errorFile
+echo "Hello World!" | sudo tee $index_file &&
+sudo chmod 644 $index_file
+sudo chmod a+w $default_web &&
+sudo sed -i '/server_name _;/a\\n\terror_page 404 /error.html;\n\tlocation /error.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}\n\tlocation /redirect_me {\n\t\trewrite ^/redirect_me https://google.com permanent;\n\t}\n' $default_web &&
+sudo chmod 644 $default_web
+sudo touch $error_file
+sudo chmod a+w $error_file
+sudo echo "Ceci n'est pas une page" > $error_file
+sudo chmod 644 $error_file
 sudo service nginx restart
