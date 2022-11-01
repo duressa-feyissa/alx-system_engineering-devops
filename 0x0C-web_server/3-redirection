@@ -22,7 +22,7 @@ NEW_CONFIG=\
 }
 "
 
-echo "$NEW_CONFIG" > > /etc/nginx/sites-available/default
+echo "$NEW_CONFIG" > /etc/nginx/sites-available/default
 
 if [ "$(pgrep nginx") -le 0 ]
 then
