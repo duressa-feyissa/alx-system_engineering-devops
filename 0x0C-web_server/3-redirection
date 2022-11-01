@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+#Installs $$ config
+sudo apt-get update
+sudo apt-get -y install nginx
+sudo ufw allow 'Nginx HTTP'
+mkdir -p /var/www/hmtl
+sudo chmod -R 755 /var/www
+echo 'Hello World!' > /var/www/html/index.html
+NEW_CONFIG=\
+"server{
+	listen 80 default server;
+	listen [::]:80 default server;
+	root /var/www/html;
+	index index.html index.htm index
+	server_name _;
+	location / {
+		try_files \$uri \$uri/ =404;
+	}
+	if (\$request_filename ~ redirect_me){
+		rewrite ^ https://youtu.be/LBXfGtq-ams permanent;
+	}
+}
+"
+
+echo "$NEW_CONFIG" > /etc/nginx/sites-available/default
+if [ "$(pgrep nginx") -le 0 ]
+then
+	service nginx start
+else
+	service nginx restart
+fi;
