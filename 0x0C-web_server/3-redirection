@@ -1,16 +1,17 @@
 #!/usr/bin/env bash
 # Installs $$ config
+
 sudo apt-get update
 sudo apt-get -y install nginx
-sudo ufw allow 'Nginx HTTP'
+ufw allow 'Nginx HTTP'
 sudo mkdir -p /var/www/hmtl
 sudo chmod -R 755 /var/www
-echo 'Hello World!' > /var/www/html/index.html
+echo "Hello World!" > /var/www/html/index.html
 NEW_CONFIG=\
 "server {
 	listen 80 default server;
 	listen [::]:80 default server;
-	root /var/www/html;
+		root /var/www/html;
 	index index.html index.htm index.nginx-debian.html;
 	server_name _;
 	location / {
