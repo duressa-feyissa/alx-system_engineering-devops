@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
 # connect to a server without typing a password
-Host 54.166.71.216
+Host 107.22.143.164
 IdentityFile ~/.ssh/school
 PasswordAuthentication no
