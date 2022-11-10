@@ -4,8 +4,7 @@
 #Nginx should be listening on port 80
 
 sudo apt update -y
-sudo apt-get -y install
 sudo apt install nginx -y
 sudo chown -R $USER:$USER /var/www/html/index.nginx-debian.html
-sudo echo "Hello World!" > $USER:$USER /var/www/html/index.nginx-debian.html
+sudo echo "Hello World!" > /var/www/html/index.nginx-debian.html
 sudo service nginx restart
