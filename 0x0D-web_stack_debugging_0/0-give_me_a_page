@@ -1,4 +1,4 @@
 #!/usr/bin/env bash
-# run apache on holbertonschool/265-0 container
-echo "ServerName localhost" >> /etc/apache2.conf
-sudo service apache2 start
+# Script that starts an Apache server.
+
+/etc/init.d/apache2 start
