@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Script that make nginx listen to port 80
+service nginx start
