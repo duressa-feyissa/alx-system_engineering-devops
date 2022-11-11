@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 # Script to setup an nginx server
-index_file=/var/www/html/index.nginx-debian.html
 error_file=/var/www/html/error.html
 default_web=/etc/nginx/sites-available/default
-sudo apt update
+sudo apt-get update -y
 sudo apt install nginx -y
-echo "Hello World!" | sudo tee $index_file &&
-sudo chmod 644 $index_file
+sudo chown -R $USER:$USER /var/www/html/index.nginx-debian.html
+sudo echo "Hello World!" > $USER:$USER /var/www/html/index.nginx-debian.html
 sudo chmod a+w $default_web &&
 sudo sed -i '/server_name _;/a\\nadd_header X-Served-By $hostname\n\terror_page 404 /error.html;\n\tlocation /error.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}\n\tlocation /redirect_me {\n\t\trewrite ^/redirect_me https://google.com permanent;\n\t}\n' $default_web &&
 sudo chmod 644 $default_web
