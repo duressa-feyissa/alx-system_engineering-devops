@@ -2,7 +2,7 @@
 # install, config && restart
 indexFile=/var/www/html/index.nginx-debian.html
 defaultWeb=/etc/nginx/sites-available/default
-sudo apt-apt-get update -y
+sudo apt-get update -y
 sudo apt install nginx -y
 echo "Hello World!" | sudo tee $indexFile &&
 sudo chmod 644 $indexFile
