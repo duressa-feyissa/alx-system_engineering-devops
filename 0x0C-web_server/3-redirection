@@ -1,15 +1,12 @@
 #!/usr/bin/env bash
-#Install nginx on your web-01
-#server
-#Nginx should be listening on port 80
-
-STRING="Hello World!"
-REDIRECT="\n\tlocation /redirect_me {\n\t\treturn 301 https://google.com; \n\t}\n"
-FILE="/etc/nginx/sites-available/default"
-sudo apt-get -y update
+# install, config && restart
+indexFile=/var/www/html/index.nginx-debian.html
+defaultWeb=/etc/nginx/sites-available/default
+sudo apt-apt-get update -y
 sudo apt install nginx -y
-sudo echo "Hello World!" > /var/www/html/index.nginx-debian.html
-ufw allow 'Nginx HTTP'
-sudo echo "$STRING" > /var/www/html/index.nginx-debian.html
-sudo sed -i "37i\ $REDIRECT" "$FILE"
+echo "Hello World!" | sudo tee $indexFile &&
+sudo chmod 644 $indexFile
+sudo chmod a+w $defaultWeb &&
+sudo sed -i '/server_name _;/a\\n\tlocation /redirect_me {\n\t\trewrite ^/redirect_me https://google.com permanent;\n\t}\n' $defaultWeb &&
+sudo chmod 644 $defaultWeb &&
 sudo service nginx restart
