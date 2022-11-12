@@ -7,7 +7,7 @@ sudo apt install nginx -y
 sudo chown -R $USER:$USER /var/www/html/index.nginx-debian.html
 sudo echo "Hello World!" > $USER:$USER /var/www/html/index.nginx-debian.html
 sudo chmod a+w $default_web &&
-sudo sed -i '/server_name _;/a\\nadd_header X-Served-By $hostname\n\terror_page 404 /error.html;\n\tlocation /error.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}\n\tlocation /redirect_me {\n\t\trewrite ^/redirect_me https://google.com permanent;\n\t}\n' $default_web &&
+sudo sed -i '/server_name _;/a\\n\tadd_header X-Served-By $hostname;\n\terror_page 404 /error.html;\n\tlocation /error.html {\n\t\troot /var/www/html;\n\t\tinternal;\n\t}\n\tlocation /redirect_me {\n\t\trewrite ^/redirect_me https://google.com permanent;\n\t}\n' $default_web &&
 sudo chmod 644 $default_web
 sudo touch $error_file
 sudo chmod a+w $error_file
