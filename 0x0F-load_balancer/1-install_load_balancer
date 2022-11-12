@@ -3,9 +3,11 @@
 sudo apt-get install -y --no-install-recommends software-properties-common
 sudo add-apt-repository -y ppa:vbernat/haproxy-2.0
 sudo apt -y install haproxy
-frontend="\nforntend scorprogfront\n\tbind *:80\n\tdefault_backend app\n"
-backend="\nbackend app\n\tbalance roundrobin\n\tserver 40506-web-01 52.91.125.60:80 check\n\tserver 40506-web-02 54.162.77.132:80 check\n"
-file="/etc/haproxy/haproxy.cfg"
-sudo echo "$frontend" >> "$file"
-sudo echo "$backend" >> "$file"
+FILE="/etc/haproxy/haproxy.cfg"
+server_1="52.91.125.60"
+server_2="54.162.77.132"
+FRONTEND="\nfrontend scorprogfront\n\tbind *:80\n\tdefault_backend scorprogservers\n"
+BACKEND="\nbackend scorprogservers\n\tbalance roundrobin\n\tserver server_1 $server_1\n\tserver server_2 $server_2\n"
+echo -e "$FRONTEND" | sudo tee -a "$FILE" 
+echo -e "$BACKEND" | sudo tee -a "$FILE"
 sudo service haproxy restart
