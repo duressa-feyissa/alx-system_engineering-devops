@@ -6,4 +6,4 @@ file="/etc/haproxy/haproxy.cfg"
 sudo chmod a+w $file &&
 sudo echo $data >> $file
 sudo haproxy -c -f haproxy.cfg
-sudo service haproxy reload
+sudo service haproxy restart
