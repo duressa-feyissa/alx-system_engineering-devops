@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+#Install and configure HAproxy on your lb-01 server.
+data="\nforntend www\n\tbind :80\n\tdefault_backend app\n\nbackend app\n\tbalance\t\troundrobin\n\tserver\t40506-web-01\t52.91.125.60:80\tcheck\n\tserver\t40506-web-02\t54.162.77.132:80\tcheck\n"
+file="/etc/haproxy/haproxy.cfg"
+sudo chmod a+w $file &&
+sudo echo $data >> $file
+sudo haproxy -c -f haproxy.cfg
+sudo service haproxy reload
