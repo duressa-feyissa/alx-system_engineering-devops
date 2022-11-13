@@ -3,7 +3,7 @@
 domainName=$1
 tmp=$2
 func1 () {
-    myArray=("www" "lb-01" "web-01" "web-01")
+    myArray=("www" "lb-01" "web-01" "web-02")
     for i in ${myArray[@]};
     do
         hostName=""
