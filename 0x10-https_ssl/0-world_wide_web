@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+domainName=$1
+tmp=$2
+func1 () {
+    myArray=("www" "lb-01" "web-01" "web-01")
+    for i in ${myArray[@]};
+    do
+        hostName=""
+        hostName+=$i
+        hostName+="."
+        hostName+=$domainName
+        value=$(dig $hostName | grep -A1 'ANSWER SECTION:' | tail -n 1)
+        awk '{print "The subdomain '$i' is a " $4 " record and points to " $5}' <<< $value
+    done
+    return 0
+}
+
+func2 () {
+    hostName=""
+    hostName+=$tmp
+    hostName+="."
+    hostName+=$domainName
+    value=$(dig $hostName | grep -A1 'ANSWER SECTION:' | tail -n 1)
+    awk '{print "The subdomain '$tmp' is a " $4 " record and points to " $5}' <<< $value
+    return 0
+}
+
+if [ $# == 1 ]
+then
+    func1
+else
+    func2
+fi
