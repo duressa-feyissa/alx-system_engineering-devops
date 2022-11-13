@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+#write a Bash script that will display information about subdomains.
 domainName=$1
 tmp=$2
 func1 () {
