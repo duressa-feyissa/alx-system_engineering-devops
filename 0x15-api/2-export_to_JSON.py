@@ -21,4 +21,3 @@ if __name__ == '__main__':
     bj[uid] = t
     with open("{}.json".format(uid), 'w') as filejs:
         json.dump(bj, filejs)
-

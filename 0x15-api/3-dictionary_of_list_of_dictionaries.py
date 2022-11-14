@@ -23,4 +23,3 @@ if __name__ == '__main__':
      for t in todo]
     with open("todo_all_employees.json", 'w') as jsf:
         json.dump(udoc, jsf)
-

@@ -25,4 +25,3 @@ if __name__ == "__main__":
                   .format(name, count, alltsk))
             for title in completedtsk:
                 print("\t {}".format(title.get("title")))
-
