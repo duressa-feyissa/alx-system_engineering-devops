@@ -20,3 +20,4 @@ if __name__ == '__main__':
             taskwriter.writerow([int(uid), user.get('username'),
                                  t.get('completed'),
                                  t.get('title')])
+
