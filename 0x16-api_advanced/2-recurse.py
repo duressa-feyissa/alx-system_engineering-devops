@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Querries the Reddit API and returns a list of 
+Querries the Reddit API and returns a list of
 the titles of all hot posts
 listed for a given subreddit
 """
@@ -9,7 +9,7 @@ import requests
 
 
 def recurse(subreddit, hot_list=[], after=None):
-    """Return a list of the titles of all hot 
+    """Return a list of the titles of all hot
     posts listed for a subreddit"""
     headers = {"user-agent": "holberton"}
     params = {"after": after}
