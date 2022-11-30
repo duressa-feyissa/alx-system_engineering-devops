@@ -2,65 +2,70 @@
 """ Module for a function that queries the Reddit API recursively."""
 
 
+import re
 import requests
+import sys
 
 
-def count_words(subreddit, word_list, word_count=[], page_after=None):
-    """ A function that queries the Reddit API parses the title of
-    all hot articles, and prints a sorted count of given keywords
-    """
+def add_title(dictionary, hot_posts):
+    """ Adds item into a list """
+    if len(hot_posts) == 0:
+        return
 
-    headers = {'User-Agent': 'HolbertonSchool'}
+    title = hot_posts[0]['data']['title'].split()
+    for word in title:
+        for key in dictionary.keys():
+            c = re.compile("^{}$".format(key), re.I)
+            if c.findall(word):
+                dictionary[key] += 1
+    hot_posts.pop(0)
+    add_title(dictionary, hot_posts)
 
-    word_list = [word.lower() for word in word_list]
 
-    if bool(word_count) is False:
-        for word in word_list:
-            word_count.append(0)
+def recurse(subreddit, dictionary, after=None):
+    """ Queries to Reddit API """
+    u_agent = 'Mozilla/5.0'
+    headers = {
+        'User-Agent': u_agent
+    }
 
-    if page_after is None:
-        url = 'https://www.reddit.com/r/{}/hot.json'.format(subreddit)
-        r = get(url, headers=headers, allow_redirects=False)
-        if r.status_code == 200:
-            for child in r.json()['data']['children']:
-                i = 0
-                for i in range(len(word_list)):
-                    for word in [w for w in child['data']['title'].split()]:
-                        word = word.lower()
-                        if word_list[i] == word:
-                            word_count[i] += 1
-                    i += 1
+    params = {
+        'after': after
+    }
 
-            if r.json()['data']['after'] is not None:
-                count_words(subreddit, word_list,
-                            word_count, r.json()['data']['after'])
+    url = "https://www.reddit.com/r/{}/hot.json".format(subreddit)
+    res = requests.get(url,
+                       headers=headers,
+                       params=params,
+                       allow_redirects=False)
+
+    if res.status_code != 200:
+        return None
+
+    dic = res.json()
+    hot_posts = dic['data']['children']
+    add_title(dictionary, hot_posts)
+    after = dic['data']['after']
+    if not after:
+        return
+    recurse(subreddit, dictionary, after=after)
+
+
+def count_words(subreddit, word_list):
+    """ Init function """
+    dictionary = {}
+
+    for word in word_list:
+        dictionary[word] = 0
+
+    recurse(subreddit, dictionary)
+
+    l = sorted(dictionary.items(), key=lambda kv: kv[1])
+    l.reverse()
+
+    if len(l) != 0:
+        for item in l:
+            if item[1] is not 0:
+                print("{}: {}".format(item[0], item[1]))
     else:
-        url = ('https://www.reddit.com/r/{}/hot.json?after={}'
-               .format(subreddit,
-                       page_after))
-        r = get(url, headers=headers, allow_redirects=False)
-
-        if r.status_code == 200:
-            for child in r.json()['data']['children']:
-                i = 0
-                for i in range(len(word_list)):
-                    for word in [w for w in child['data']['title'].split()]:
-                        word = word.lower()
-                        if word_list[i] == word:
-                            word_count[i] += 1
-                    i += 1
-            if r.json()['data']['after'] is not None:
-                count_words(subreddit, word_list,
-                            word_count, r.json()['data']['after'])
-            else:
-                dicto = {}
-                for key_word in list(set(word_list)):
-                    i = word_list.index(key_word)
-                    if word_count[i] != 0:
-                        dicto[word_list[i]] = (word_count[i] *
-                                               word_list.count(word_list[i]))
-
-                for key, value in sorted(dicto.items(),
-                                         key=lambda x: (-x[1], x[0])):
-                    print('{}: {}'.format(key, value))
-
+        print("")
