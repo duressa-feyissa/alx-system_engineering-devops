@@ -53,24 +53,6 @@ http {
                 location /airbnb-onepage {
                         proxy_pass http://127.0.0.1:5000/airbnb-onepage;
                 }
-
-               location ~ /airbnb-dynamic/number_odd_or_even/(\d+)$ {
-                        proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
-                }
-
-                location /api {
-                        proxy_pass http://127.0.0.1:5002/api;
-                }
-
-                location / {
-                        proxy_pass http://127.0.0.1:5003/2-hbnb;
-                }
-
-                location /static/ {
-                        root /home/ubuntu/AirBnB_clone_v4/web_dynamic/;
-                        autoindex on;
-                }
-
         }
 
         include /etc/nginx/conf.d/*.conf;
